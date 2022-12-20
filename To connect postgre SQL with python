@@ -1,0 +1,31 @@
+import psycopg2 
+
+hostname = 'localhost'
+database = 'SuperMart_DB'
+username = 'postgres'
+pwd = 'india'
+port_id = 5432
+conn = None
+cur = None
+
+try : 
+    conn = psycopg2.connect(host = hostname, dbname = database, user = username, password = pwd, port = port_id)
+    cur = conn.cursor()
+    
+    cur.execute('SELECT * FROM sales LIMIT 5')#To write sql queries
+    for record in cur.fetchall(): #To fetch all the records from the table
+        print(record[1],record[2])#To fetch specifice column we use index [1][2]
+    
+    conn.commit()#To commit current execution to the pgadmin4
+    
+except Exception as Error:
+    print("Error Occure with Exception!! Please read the code again.")
+    
+finally:
+    if cur is not None:
+        cur.close()
+        
+    if conn is not None:
+        conn.close()
+print(cur.closed) #To check if connection is closed or not output will be True or False
+print(conn.closed) #--Output in binary--
